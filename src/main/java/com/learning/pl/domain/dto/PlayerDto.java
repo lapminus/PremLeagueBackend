@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 
 public record PlayerDto(
 
+        Integer id,
+
         @Size(max = 30, message = "Player name cannot exceed 30 characters")
         String playerName,
 

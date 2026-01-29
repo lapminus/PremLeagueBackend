@@ -10,6 +10,7 @@ public class PlayerMapperImpl implements PlayerMapper {
     @Override
     public PlayerDto toDto(Player player) {
         return new PlayerDto(
+                player.getId(),
                 player.getPlayerName(),
                 player.getNation(),
                 player.getPos(),
