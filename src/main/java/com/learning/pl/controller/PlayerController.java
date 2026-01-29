@@ -2,6 +2,7 @@ package com.learning.pl.controller;
 
 import com.learning.pl.domain.model.Player;
 import com.learning.pl.service.PlayerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +50,22 @@ public class PlayerController {
     public ResponseEntity<List<String>> getAllPositions() {
         List<String> positions = playerService.getAllPositions();
         return ResponseEntity.ok(positions);
+    }
+
+    @PostMapping
+    public ResponseEntity<Player> createPlayer(@RequestBody Player player) {
+        return new ResponseEntity<>(playerService.createPlayer(player), HttpStatus.CREATED);
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Player> updatePlayer(@PathVariable Integer id, @RequestBody Player player) {
+        return ResponseEntity.ok(playerService.updatePlayer(id, player));
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> deletePlayer(@PathVariable Integer id) {
+        playerService.deletePlayer(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

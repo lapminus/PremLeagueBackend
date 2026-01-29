@@ -7,9 +7,18 @@ import java.util.Optional;
 
 public interface PlayerService {
     Optional<Player> getPlayerById(Integer id);
+
     List<Player> getPlayersBy(String name, String position, String team, String nation);
 
     List<String> getAllTeams();
+
     List<String> getAllNations();
+
     List<String> getAllPositions();
+
+    Player createPlayer(Player player);
+
+    Player updatePlayer(Integer id, Player player);
+
+    void deletePlayer(Integer id);
 }
