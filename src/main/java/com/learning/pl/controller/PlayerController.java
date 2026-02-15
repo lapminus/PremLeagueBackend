@@ -5,6 +5,9 @@ import com.learning.pl.domain.model.Player;
 import com.learning.pl.mapper.PlayerMapper;
 import com.learning.pl.service.PlayerService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping(path = "/api/v1/players")
 public class PlayerController {
@@ -31,13 +35,16 @@ public class PlayerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PlayerDto>> getPlayersBy(
+    public ResponseEntity<Page<PlayerDto>> getPlayersBy(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String position,
             @RequestParam(required = false) String team,
-            @RequestParam(required = false) String nation) {
-        List<Player> results = playerService.getPlayersBy(name, position, team, nation);
-        return ResponseEntity.ok(results.stream().map(playerMapper::toDto).toList());
+            @RequestParam(required = false) String nation,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Player> results = playerService.getPlayersBy(name, position, team, nation, pageable);
+        return ResponseEntity.ok(results.map(playerMapper::toDto));
     }
 
     @GetMapping(path = "/teams")

@@ -1,6 +1,8 @@
 package com.learning.pl.repository;
 
 import com.learning.pl.domain.model.Player;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,11 +19,12 @@ public interface PlayerDao extends JpaRepository<Player, Integer> {
                   AND (:team IS NULL OR p.teamName ILIKE %:team%)
                   AND (:nation IS NULL OR p.nation ILIKE %:nation%)
             """)
-    List<Player> findPlayersBy(
+    Page<Player> findPlayersBy(
             @Param("name") String name,
             @Param("position") String position,
             @Param("team") String team,
-            @Param("nation") String nation);
+            @Param("nation") String nation,
+            Pageable pageable);
 
     @Query("SELECT DISTINCT(p.teamName) FROM Player p ORDER BY p.teamName ASC")
     List<String> findAllTeams();

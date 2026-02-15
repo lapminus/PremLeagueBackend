@@ -4,13 +4,12 @@ import com.learning.pl.domain.model.Player;
 import com.learning.pl.repository.PlayerDao;
 import com.learning.pl.service.PlayerService;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -27,12 +26,12 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public List<Player> getPlayersBy(String name, String position, String team, String nation) {
+    public Page<Player> getPlayersBy(String name, String position, String team, String nation, Pageable pageable) {
         if (name == null || name.isBlank()) name = null;
         if (position == null || position.isBlank()) position = null;
         if (team == null || team.isBlank()) team = null;
         if (nation == null || nation.isBlank()) nation = null;
-        return playerDao.findPlayersBy(name, position, team, nation);
+        return playerDao.findPlayersBy(name, position, team, nation, pageable);
     }
 
     @Override
@@ -47,7 +46,12 @@ public class PlayerServiceImpl implements PlayerService {
         for (String nation : allNations) {
             if (nation != null) {
                 String[] s = nation.split(" ");
-                nations.add(s[1]);
+                System.out.println(Arrays.toString(s));
+                if (s.length == 2) {
+                    nations.add(s[1]);
+                } else {
+                    nations.add(s[0]);
+                }
             }
         }
         Collections.sort(nations);
