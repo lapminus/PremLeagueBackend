@@ -41,21 +41,22 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public List<String> getAllNations() {
-        List<String> allNations = playerDao.findAllNations();
-        List<String> nations = new ArrayList<>();
-        for (String nation : allNations) {
-            if (nation != null) {
-                String[] s = nation.split(" ");
-                System.out.println(Arrays.toString(s));
-                if (s.length == 2) {
-                    nations.add(s[1]);
-                } else {
-                    nations.add(s[0]);
-                }
-            }
-        }
-        Collections.sort(nations);
-        return nations;
+//        List<String> allNations = playerDao.findAllNations();
+//        List<String> nations = new ArrayList<>();
+//        for (String nation : allNations) {
+//            if (nation != null) {
+//                String[] s = nation.split(" ");
+//                System.out.println(Arrays.toString(s));
+//                if (s.length == 2) {
+//                    nations.add(s[1]);
+//                } else {
+//                    nations.add(s[0]);
+//                }
+//            }
+//        }
+//        Collections.sort(nations);
+//        return nations;
+        return playerDao.findAllNations();
     }
 
     @Override
