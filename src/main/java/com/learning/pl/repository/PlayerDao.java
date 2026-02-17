@@ -18,6 +18,7 @@ public interface PlayerDao extends JpaRepository<Player, Integer> {
                   AND (:position IS NULL OR p.pos ILIKE %:position%)
                   AND (:team IS NULL OR p.teamName = :team)
                   AND (:nation IS NULL OR p.nation ILIKE %:nation%)
+                ORDER BY p.id ASC
             """)
     Page<Player> findPlayersBy(
             @Param("name") String name,
